@@ -1,10 +1,10 @@
-# MMM-MHZ19
+# MMM-SCD-30
 
   
 
 This is an extension for the [MagicMirror²](https://github.com/MichMich/MagicMirror).
 
-It monitors CO2 level from [MH-Z19 sensor](https://revspace.nl/MHZ19) and draws a chart for a few last hours.
+It monitors CO2 level from [SCD-30 sensor](https://learn.adafruit.com/adafruit-scd30/overview) and draws a chart for a few last hours.
 
   
 
@@ -16,24 +16,26 @@ It monitors CO2 level from [MH-Z19 sensor](https://revspace.nl/MHZ19) and draws 
 
 1. Navigate into your MagicMirror's `modules` folder
 
-2. Clone repository `git clone https://github.com/awitwicki/MMM-MHZ19`
+2. Clone repository `git clone https://github.com/Yours3lf/MMM-SCD-30`
 
 3. Go to newly created directory
 
 4. Execute `npm install` to install the node dependencies.
  > If you got error, try to execute `npm install chartjs`
   
-5. Connect the MH-Z19 to your Raspberry Pi
+5. Connect the SCD-30 to your Raspberry Pi
 
 <img  src=".github/connection.png">
 
-| Raspberry pi | MH-Z19 |
+| Raspberry Pi | SCD-30 |
 |--|--|
-|  GPIO 17 | PWM |
-|  Ground| GND|
-| 5V power | VIN|
+| 3.3V DC power | VIN |
+| GPIO8 SDA1 | SDA |
+| GPIO9 SCL1 | SCL |
+| GPIO7 GPCLK0 | skip |
+| Ground | GND |
 
-
+https://learn.adafruit.com/adafruit-scd30/python-circuitpython
 
   
 
@@ -49,8 +51,8 @@ Add it to the modules array in the `config/config.js` file:
 modules: [
 	...
 	{
-		module:  'MMM-MHZ19',
-		position:  'top_left',
+		module:  'MMM-SCD-30',
+		position:  'bottom_right',
 		config: {
 			updateInterval:  100  //seconds
 			}
@@ -84,23 +86,23 @@ For more details about BCM pin numbers check [here](http://www.raspberrypi-spy.c
 
 -  `python3` (should be installed on Raspberry Pi)
 
--  `RPi.GPIO` (Python library, should be installed on Raspberry Pi )
+-  `adafruit-circuitpython-scd30` (Python library for the readings: sudo pip install adafruit-circuitpython-scd30 )
 
   
 
-## Test MH-Z19 module
+## Test SCD-30 module
 
 1. Navigate into your **MagicMirror** folder
-2. Run .sh script `./modules/MMM-MHZ19/mh_z19.sh`
+2. Run .sh script `./modules/MMM-SCD-30/scd_30_.sh`
 (If script doesn't run, add exec parameter to it)
-`sudo chmod +x modules/MMM-MHZ19/mh_z19.sh`.
+`sudo chmod +x modules/MMM-SCD-30/scd_30_.sh`.
 3. Script should print sensor values like this
 `566` - that means `CO2 PPM in air`
-> Notice that MH-Z19 module can return small values (<400 PPM) continuously in a few seconds after hardware module was started (by connecting power voltage pin).
+> Notice that SCD-30 module can return small values (<400 PPM) continuously in a few seconds after hardware module was started (by connecting power voltage pin).
   
 
 ### Thanks
 
   
-
+[MMM-MHZ19 module](https://github.com/awitwicki/MMM-MHZ19)
 [MMM-DHT-Sensor module](https://github.com/bernardpletikosa/MMM-DHT-Sensor)

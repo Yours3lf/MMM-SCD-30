@@ -1,15 +1,15 @@
 /* global Module */
 
 /* Magic Mirror
- * Module: MMM-MHZ19
+ * Module: MMM-SCD-30
  */
 
-Module.register("MMM-MHZ19", {
+Module.register("MMM-SCD-30", {
     defaults: {
-        titleText: "Home CO2 level is",
+        titleText: "Home",
         max_count: 2000,
         updateInterval: 10,
-        sensorPIN: 11,
+        sensorPIN: 97, //https://github.com/Sensirion/arduino-i2c-scd30
         width: 450,
         height: 200,
         chartConfig: {
@@ -91,7 +91,7 @@ Module.register("MMM-MHZ19", {
     },
 
     getStyles: function () {
-        return ['MMM-MHZ19.css'];
+        return ['MMM-SCD-30.css'];
     },
 
 
@@ -129,12 +129,14 @@ Module.register("MMM-MHZ19", {
     socketNotificationReceived: function (notification, payload) {
         if (notification === 'DATA-CO2') {
 
-            this.co2 = payload.co2_value;
+            this.co2 = payload.co2;
+            this.temp = payload.temp;
+            this.hum = payload.hum;
             this.loaded = 1;
             // console.log("DATA-CO2: " + payload.co2_value);
 
             var label_div = document.getElementById("label_div");
-            label_div.innerHTML = (this.config.titleText + " " + this.co2 + "PPM");
+            label_div.innerHTML = (this.config.titleText + " CO2: " + this.co2 + "PPM" + " TEMP: " + this.temp + "°C" + " RH: " + this.hum + "%");
 
             this.config.chartConfig.data.datasets[0].data.push(this.co2);
             this.config.chartConfig.data.labels.push(getTimeString());
