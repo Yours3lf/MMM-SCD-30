@@ -19,14 +19,14 @@ module.exports = NodeHelper.create({
 		if (notification === 'REQUEST-CO2') {
 			const self = this
 
-			//execute external mh_z19 Script
+			//execute external scd_30 Script
 			exec("./modules/MMM-SCD-30/scd_30.sh", (error, stdout) => {
 				if (error) {
 					console.error(`exec error: ${error}`);
 					return;
 				}
 				// Send CO2
-				self.sendSocketNotification('DATA-CO2', JSON.parse(stdout));
+				self.sendSocketNotification('DATA-CO2', JSON.parse(stdout.trim()));
 			});
 		}
 	}

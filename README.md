@@ -23,16 +23,22 @@ It monitors CO2 level from [SCD-30 sensor](https://learn.adafruit.com/adafruit-s
 4. Execute `npm install` to install the node dependencies.
  > If you got error, try to execute `npm install chartjs`
   
-5. Connect the SCD-30 to your Raspberry Pi
+5. Connect the SCD-30 to your Raspberry Pi. See command: `pinout`
+
+6. Make sure to enable I2C interface via raspi-config. Look for 0x61 on Bus 1. Check using `sudo apt install i2c-tools && i2cdetect -y 1`
+
+7. Make sure to mark the scd_30.sh script as executable: `sudo chmod +x scd_30.sh`
+
+7. Make sure your user running magicmirror is in the i2c group (eg. user called pi): `sudo usermod -aG i2c pi`
 
 <img  src=".github/connection.png">
 
 | Raspberry Pi | SCD-30 |
 |--|--|
 | 3.3V DC power | VIN |
-| GPIO8 SDA1 | SDA |
-| GPIO9 SCL1 | SCL |
-| GPIO7 GPCLK0 | skip |
+| GPIO2 SDA1 | SDA |
+| GPIO3 SCL1 | SCL |
+| GPIO4 GPCLK0 | skip |
 | Ground | GND |
 
 https://learn.adafruit.com/adafruit-scd30/python-circuitpython
@@ -72,13 +78,7 @@ Configurations properties
   | Property| Description |
 |--|--|
 |  `titleText` | **Type**  `string`, **Default value** `Home weather`|
-|  `updateInterval` | **Type**  `int`, **Default value** `100`, **Minimal value** `10`, Wait interval between readings of BME280 sensor values in seconds|
-
-
-
-## Developer Notes
-
-For more details about BCM pin numbers check [here](http://www.raspberrypi-spy.co.uk/2012/06/simple-guide-to-the-rpi-gpio-header-and-pins)
+|  `updateInterval` | **Type**  `int`, **Default value** `100`, **Minimal value** `10`, Wait interval between readings of sensor values in seconds|
 
   
 
@@ -86,7 +86,7 @@ For more details about BCM pin numbers check [here](http://www.raspberrypi-spy.c
 
 -  `python3` (should be installed on Raspberry Pi)
 
--  `adafruit-circuitpython-scd30` (Python library for the readings: sudo pip install adafruit-circuitpython-scd30 )
+-  `adafruit-circuitpython-scd30` (Python library for the readings, installed the first time scd_30.sh runs )
 
   
 
@@ -98,7 +98,6 @@ For more details about BCM pin numbers check [here](http://www.raspberrypi-spy.c
 `sudo chmod +x modules/MMM-SCD-30/scd_30_.sh`.
 3. Script should print sensor values like this
 `566` - that means `CO2 PPM in air`
-> Notice that SCD-30 module can return small values (<400 PPM) continuously in a few seconds after hardware module was started (by connecting power voltage pin).
   
 
 ### Thanks

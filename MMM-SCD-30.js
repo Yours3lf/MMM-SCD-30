@@ -136,7 +136,7 @@ Module.register("MMM-SCD-30", {
             // console.log("DATA-CO2: " + payload.co2_value);
 
             var label_div = document.getElementById("label_div");
-            label_div.innerHTML = (this.config.titleText + " CO2: " + this.co2 + "PPM" + " TEMP: " + this.temp + "°C" + " RH: " + this.hum + "%");
+            label_div.innerHTML = (this.config.titleText + " CO2: " + this.co2 + "PPM" + " TEMP: " + this.temp + "C" + " RH: " + this.hum + "%");
 
             this.config.chartConfig.data.datasets[0].data.push(this.co2);
             this.config.chartConfig.data.labels.push(getTimeString());

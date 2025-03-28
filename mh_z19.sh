@@ -1,1 +1,0 @@
-python3 ./modules/MMM-MHZ19/mh_z19.py
